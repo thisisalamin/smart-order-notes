@@ -7,6 +7,7 @@
  * Author: Crafely
  * Author URI: https://crafely.com
  * Text Domain: smart-order-notes
+ * Domain Path: /languages
  * Requires at least: 5.0
  * Tested up to: 6.4
  * WC requires at least: 3.0
@@ -22,11 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class SONotes_Main {
 	public function __construct() {
-		$this->define_constants();
-		$this->includes();
-		$this->add_hooks();
+			$this->define_constants();
+			$this->includes();
+			$this->add_hooks();
 	}
-
 	private function define_constants() {
 		if ( ! defined( 'SONOTES_VERSION' ) ) {
 			define( 'SONOTES_VERSION', '1.0.0' );

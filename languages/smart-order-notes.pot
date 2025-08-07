@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Smart Order Notes 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/thisisalamin/smart-order-notes\n"
+"POT-Creation-Date: 2025-08-07 00:00+0000\n"
+"PO-Revision-Date: 2025-08-07 00:00+0000\n"
+"Last-Translator: Crafely <info@crafely.com>\n"
+"Language-Team: Crafely <info@crafely.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: GitHub Copilot\n"
+"X-Domain: smart-order-notes\n"
+
+#: smart-order-notes.php
+msgid "Please select a template first."
+msgstr ""
+
+#: smart-order-notes.php
+msgid "Could not find the order note field. Please add the note manually."
+msgstr ""
+
+#: smart-order-notes.php
+msgid "Inserted!"
+msgstr ""
+
+#: smart-order-notes.php
+msgid "Customer notes will be sent via email to the customer."
+msgstr ""
+
+#: smart-order-notes.php
+msgid "Private notes are only visible to staff members."
+msgstr ""
+
+#: smart-order-notes.php
+msgid "Select a template to insert into order notes"
+msgstr ""
