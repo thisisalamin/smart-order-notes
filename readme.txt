@@ -1,5 +1,5 @@
 === Smart Order Notes ===
-Contributors: crafely, alamin
+Contributors: crafely
 Tags: woocommerce, order notes, templates, admin, ecommerce
 Requires at least: 5.0
 Tested up to: 6.8
@@ -151,12 +151,9 @@ Yes, the plugin works with any order status. Templates can be used regardless of
 
 == Screenshots ==
 
+
 1. **Template Management** - Clean interface for creating and managing note templates
 2. **Order Integration** - Template selector appears in order sidebar for quick access
-3. **Template Preview** - See template content before insertion with one-click preview
-4. **Note Type Selection** - Choose between private (staff) or customer (email) notes
-5. **One-Click Insertion** - Insert templates instantly with visual feedback
-6. **Template List View** - Organized view of all templates with type indicators
 
 == Changelog ==
 
