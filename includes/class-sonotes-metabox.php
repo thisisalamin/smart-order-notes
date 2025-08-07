@@ -104,26 +104,3 @@ function sonotes_save_template_type( $post_id ) {
 	}
 }
 add_action( 'save_post_sonotes_template', 'sonotes_save_template_type' );
-
-/**
- * Add help text to template edit screen
- */
-function sonotes_template_help_text() {
-	$screen = get_current_screen();
-	if ( $screen && $screen->post_type === 'sonotes_template' ) {
-		?>
-		<div class="notice notice-info">
-			<p>
-				<strong><?php _e( 'Creating Order Note Templates', 'smart-order-notes' ); ?></strong>
-			</p>
-			<ul style="margin-left: 20px;">
-				<li><?php _e( 'Use the title field for a descriptive template name', 'smart-order-notes' ); ?></li>
-				<li><?php _e( 'Write your note content in the editor below', 'smart-order-notes' ); ?></li>
-				<li><?php _e( 'Choose whether this should be a private note (staff only) or customer note (sent to customer)', 'smart-order-notes' ); ?></li>
-				<li><?php _e( 'Templates will appear in a dropdown on WooCommerce order pages', 'smart-order-notes' ); ?></li>
-			</ul>
-		</div>
-		<?php
-	}
-}
-add_action( 'admin_notices', 'sonotes_template_help_text' );
