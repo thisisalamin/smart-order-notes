@@ -40,7 +40,7 @@ function sonotes_enqueue_order_scripts( $hook ) {
 
 	// Only load on order edit pages
 	if ( ( $post_type === 'shop_order' && $hook === 'post.php' ) ||
-		( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'wc-orders' ) ) {
+		( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'wc-orders' && isset( $_GET['_sonotes_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_sonotes_nonce'] ) ), 'sonotes_nonce' ) ) ) {
 
 		wp_enqueue_script( 'jquery' );
 
@@ -111,10 +111,10 @@ function sonotes_render_order_metabox( $post_or_order ) {
 	if ( empty( $templates ) ) {
 		?>
 		<div class="sonotes-no-templates">
-			<p><?php _e( 'No templates available.', 'smart-order-notes' ); ?></p>
+			<p><?php esc_html_e( 'No templates available.', 'smart-order-notes' ); ?></p>
 			<p>
-				<a href="<?php echo admin_url( 'edit.php?post_type=sonotes_template' ); ?>" class="button button-secondary">
-					<?php _e( 'Create Templates', 'smart-order-notes' ); ?>
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=sonotes_template' ) ); ?>" class="button button-secondary">
+					<?php esc_html_e( 'Create Templates', 'smart-order-notes' ); ?>
 				</a>
 			</p>
 		</div>
@@ -137,14 +137,14 @@ function sonotes_render_order_metabox( $post_or_order ) {
 	?>
 	<div class="sonotes-template-selector">
 		<div class="sonotes-field-group">
-			<label for="sonotes_template_select">
-				<strong><?php _e( 'Select Template:', 'smart-order-notes' ); ?></strong>
-			</label>
+		<label for="sonotes_template_select">
+			<strong><?php esc_html_e( 'Select Template:', 'smart-order-notes' ); ?></strong>
+		</label>
 			<select id="sonotes_template_select" style="width: 100%; margin-top: 5px;">
-				<option value=""><?php _e( 'Choose a template...', 'smart-order-notes' ); ?></option>
+			<option value=""><?php esc_html_e( 'Choose a template...', 'smart-order-notes' ); ?></option>
 
 				<?php if ( ! empty( $private_templates ) ) : ?>
-					<optgroup label="<?php esc_attr_e( 'Private Notes (Staff Only)', 'smart-order-notes' ); ?>">
+		<optgroup label="<?php esc_attr_e( 'Private Notes (Staff Only)', 'smart-order-notes' ); ?>">
 						<?php foreach ( $private_templates as $template ) : ?>
 							<option value="<?php echo esc_attr( $template->ID ); ?>"
 									data-content="<?php echo esc_attr( $template->post_content ); ?>"
@@ -156,7 +156,7 @@ function sonotes_render_order_metabox( $post_or_order ) {
 				<?php endif; ?>
 
 				<?php if ( ! empty( $customer_templates ) ) : ?>
-					<optgroup label="<?php esc_attr_e( 'Customer Notes (Sent to Customer)', 'smart-order-notes' ); ?>">
+		<optgroup label="<?php esc_attr_e( 'Customer Notes (Sent to Customer)', 'smart-order-notes' ); ?>">
 						<?php foreach ( $customer_templates as $template ) : ?>
 							<option value="<?php echo esc_attr( $template->ID ); ?>"
 									data-content="<?php echo esc_attr( $template->post_content ); ?>"
@@ -170,35 +170,35 @@ function sonotes_render_order_metabox( $post_or_order ) {
 		</div>
 
 		<div class="sonotes-field-group" style="margin-top: 10px;">
-			<label>
-				<strong><?php _e( 'Note Type:', 'smart-order-notes' ); ?></strong>
-			</label>
+		<label>
+			<strong><?php esc_html_e( 'Note Type:', 'smart-order-notes' ); ?></strong>
+		</label>
 			<div class="sonotes-note-type-selector" style="margin-top: 5px;">
 				<label style="margin-right: 15px;">
-					<input type="radio" name="sonotes_note_type" value="private" checked="checked">
-					<?php _e( 'Private Note', 'smart-order-notes' ); ?>
+			<input type="radio" name="sonotes_note_type" value="private" checked="checked">
+			<?php esc_html_e( 'Private Note', 'smart-order-notes' ); ?>
 				</label>
 				<label>
-					<input type="radio" name="sonotes_note_type" value="customer">
-					<?php _e( 'Customer Note', 'smart-order-notes' ); ?>
+			<input type="radio" name="sonotes_note_type" value="customer">
+			<?php esc_html_e( 'Customer Note', 'smart-order-notes' ); ?>
 				</label>
 			</div>
-			<p class="description" style="margin-top: 5px;">
-				<?php _e( 'Customer notes will be sent via email to the customer.', 'smart-order-notes' ); ?>
-			</p>
+		<p class="description" style="margin-top: 5px;">
+			<?php esc_html_e( 'Customer notes will be sent via email to the customer.', 'smart-order-notes' ); ?>
+		</p>
 		</div>
 
 	<div class="sonotes-field-group" style="margin-top: 15px; display: flex; gap: 8px;">
 		<button type="button" class="button button-primary" id="sonotes_insert_btn" style="flex:1;">
-			<?php _e( 'Insert', 'smart-order-notes' ); ?>
+			<?php esc_html_e( 'Insert', 'smart-order-notes' ); ?>
 		</button>
 		<button type="button" class="button button-secondary" id="sonotes_insert_send_btn" style="flex:1;">
-			<?php _e( 'Insert & Send', 'smart-order-notes' ); ?>
+			<?php esc_html_e( 'Insert & Send', 'smart-order-notes' ); ?>
 		</button>
 	</div>
 
 		<div class="sonotes-preview" id="sonotes_preview" style="margin-top: 10px; display: none;">
-			<label><strong><?php _e( 'Preview:', 'smart-order-notes' ); ?></strong></label>
+		<label><strong><?php esc_html_e( 'Preview:', 'smart-order-notes' ); ?></strong></label>
 			<div class="sonotes-preview-content" style="background: #f9f9f9; padding: 8px; border: 1px solid #ddd; margin-top: 5px; font-size: 12px; line-height: 1.4;"></div>
 		</div>
 	</div>
@@ -226,7 +226,7 @@ function sonotes_render_order_metabox( $post_or_order ) {
 			var content = $('#sonotes_template_select option:selected').data('content');
 			var noteType = $('input[name="sonotes_note_type"]:checked').val();
 			if (!content) {
-				alert('<?php _e( 'Please select a template first.', 'smart-order-notes' ); ?>');
+			alert('<?php esc_js( __( 'Please select a template first.', 'smart-order-notes' ) ); ?>');
 				return;
 			}
 			var $noteField = $('#add_order_note, textarea[name="order_note"], .wc-order-add-note textarea');
@@ -236,12 +236,12 @@ function sonotes_render_order_metabox( $post_or_order ) {
 				if ($noteTypeSelect.length && noteType) {
 					$noteTypeSelect.val(noteType === 'customer' ? 'customer' : '').trigger('change');
 				}
-				$(this).text('<?php _e( 'Inserted!', 'smart-order-notes' ); ?>').addClass('button-success');
+			$(this).text('<?php esc_js( __( 'Inserted!', 'smart-order-notes' ) ); ?>').addClass('button-success');
 				setTimeout(function() {
-					$('#sonotes_insert_btn').text('<?php _e( 'Insert', 'smart-order-notes' ); ?>').removeClass('button-success');
+			$('#sonotes_insert_btn').text('<?php esc_js( __( 'Insert', 'smart-order-notes' ) ); ?>').removeClass('button-success');
 				}, 2000);
 			} else {
-				alert('<?php _e( 'Could not find the order note field. Please add the note manually.', 'smart-order-notes' ); ?>');
+			alert('<?php esc_js( __( 'Could not find the order note field. Please add the note manually.', 'smart-order-notes' ) ); ?>');
 			}
 		});
 
@@ -251,11 +251,11 @@ function sonotes_render_order_metabox( $post_or_order ) {
 			var noteType = $('input[name="sonotes_note_type"]:checked').val();
 			var orderId = $("input#post_ID").val() || $("input[name='id']").val();
 			if (!content || !orderId) {
-				alert('<?php _e( 'Please select a template first.', 'smart-order-notes' ); ?>');
+			alert('<?php esc_js( __( 'Please select a template first.', 'smart-order-notes' ) ); ?>');
 				return;
 			}
 			var $btn = $(this);
-			$btn.prop('disabled', true).text('<?php _e( 'Sending...', 'smart-order-notes' ); ?>');
+			$btn.prop('disabled', true).text('<?php esc_js( __( 'Sending...', 'smart-order-notes' ) ); ?>');
 			$.post(sonotes_ajax.ajax_url, {
 				action: 'sonotes_insert_and_send',
 				nonce: sonotes_ajax.nonce,
@@ -263,7 +263,7 @@ function sonotes_render_order_metabox( $post_or_order ) {
 				content: content,
 				note_type: noteType
 			}, function(response) {
-				$btn.prop('disabled', false).text('<?php _e( 'Insert & Send', 'smart-order-notes' ); ?>');
+			$btn.prop('disabled', false).text('<?php esc_js( __( 'Insert & Send', 'smart-order-notes' ) ); ?>');
 				if (response && response.success) {
 					// Optionally reload the notes panel or show a message
 					location.reload();
@@ -284,12 +284,12 @@ function sonotes_ajax_insert_and_send() {
 	if ( ! current_user_can( 'edit_shop_orders' ) ) {
 		wp_send_json_error( 'Permission denied.' );
 	}
-	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( $_POST['nonce'] ) : '';
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce, 'sonotes_nonce' ) ) {
 		wp_send_json_error( 'Security check failed.' );
 	}
 	$order_id  = isset( $_POST['order_id'] ) ? intval( $_POST['order_id'] ) : 0;
-	$content   = isset( $_POST['content'] ) ? wp_kses_post( $_POST['content'] ) : '';
+	$content   = isset( $_POST['content'] ) ? wp_kses_post( wp_unslash( $_POST['content'] ) ) : '';
 	$note_type = isset( $_POST['note_type'] ) && $_POST['note_type'] === 'customer' ? 'customer' : 'private';
 	if ( ! $order_id || ! $content ) {
 		wp_send_json_error( 'Missing data.' );
@@ -310,7 +310,7 @@ add_action( 'wp_ajax_sonotes_insert_and_send', 'sonotes_ajax_insert_and_send' );
  */
 function sonotes_ajax_insert_template() {
 	// Verify nonce
-	$nonce = sanitize_text_field( $_REQUEST['nonce'] ?? '' );
+	$nonce = isset( $_REQUEST['nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['nonce'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce, 'sonotes_nonce' ) ) {
 		wp_die( 'Security check failed' );
 	}

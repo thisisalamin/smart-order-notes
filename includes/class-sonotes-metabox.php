@@ -37,22 +37,22 @@ function sonotes_template_type_metabox_cb( $post ) {
 	<div class="sonotes-template-type-wrapper">
 		<p>
 			<label for="sonotes_type_select">
-				<strong><?php _e( 'Default Note Type:', 'smart-order-notes' ); ?></strong>
+				<strong><?php esc_html_e( 'Default Note Type:', 'smart-order-notes' ); ?></strong>
 			</label>
 		</p>
 		<p>
 			<select name="sonotes_type" id="sonotes_type_select" style="width: 100%;">
 				<option value="private" <?php selected( $type, 'private' ); ?>>
-					<?php _e( 'Private Note (staff only)', 'smart-order-notes' ); ?>
+					<?php esc_html_e( 'Private Note (staff only)', 'smart-order-notes' ); ?>
 				</option>
 				<option value="customer" <?php selected( $type, 'customer' ); ?>>
-					<?php _e( 'Customer Note (sent to customer)', 'smart-order-notes' ); ?>
+					<?php esc_html_e( 'Customer Note (sent to customer)', 'smart-order-notes' ); ?>
 				</option>
 			</select>
 		</p>
 		<div class="sonotes-help-text">
 			<p class="description">
-				<?php _e( 'Choose the default note type for this template. Users can still change this when inserting the note.', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'Choose the default note type for this template. Users can still change this when inserting the note.', 'smart-order-notes' ); ?>
 			</p>
 		</div>
 	</div>
@@ -81,7 +81,7 @@ function sonotes_template_type_metabox_cb( $post ) {
 function sonotes_save_template_type( $post_id ) {
 	// Check if nonce is valid
 	if ( ! isset( $_POST['sonotes_template_nonce'] ) ||
-		! wp_verify_nonce( $_POST['sonotes_template_nonce'], 'sonotes_save_template_meta' ) ) {
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['sonotes_template_nonce'] ) ), 'sonotes_save_template_meta' ) ) {
 		return;
 	}
 
@@ -97,8 +97,8 @@ function sonotes_save_template_type( $post_id ) {
 
 	// Save the template type
 	if ( isset( $_POST['sonotes_type'] ) ) {
-		$type = sanitize_text_field( $_POST['sonotes_type'] );
-		if ( in_array( $type, array( 'private', 'customer' ) ) ) {
+		$type = sanitize_text_field( wp_unslash( $_POST['sonotes_type'] ) );
+		if ( in_array( $type, array( 'private', 'customer' ), true ) ) {
 			update_post_meta( $post_id, '_sonotes_type', $type );
 		}
 	}

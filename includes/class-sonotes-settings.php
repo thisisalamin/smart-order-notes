@@ -39,13 +39,13 @@ function sonotes_settings_page_html() {
 
 		$auto_select_type = isset( $_POST['sonotes_auto_select_type'] ) ? 1 : 0;
 		$show_preview     = isset( $_POST['sonotes_show_preview'] ) ? 1 : 0;
-		$template_limit   = intval( $_POST['sonotes_template_limit'] );
+		$template_limit   = isset( $_POST['sonotes_template_limit'] ) ? intval( $_POST['sonotes_template_limit'] ) : 50;
 
 		update_option( 'sonotes_auto_select_type', $auto_select_type );
 		update_option( 'sonotes_show_preview', $show_preview );
 		update_option( 'sonotes_template_limit', max( 5, min( 100, $template_limit ) ) );
 
-		echo '<div class="notice notice-success"><p>' . __( 'Settings saved!', 'smart-order-notes' ) . '</p></div>';
+			echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings saved!', 'smart-order-notes' ) . '</p></div>';
 	}
 
 	// Get current settings
@@ -61,37 +61,37 @@ function sonotes_settings_page_html() {
 
 			<table class="form-table">
 				<tr>
-					<th scope="row"><?php _e( 'Auto-select Note Type', 'smart-order-notes' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Auto-select Note Type', 'smart-order-notes' ); ?></th>
 					<td>
 						<label>
 							<input type="checkbox" name="sonotes_auto_select_type" value="1" <?php checked( $auto_select_type ); ?>>
-							<?php _e( 'Automatically select note type based on template default', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'Automatically select note type based on template default', 'smart-order-notes' ); ?>
 						</label>
 						<p class="description">
-							<?php _e( 'When enabled, selecting a template will automatically choose the matching note type.', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'When enabled, selecting a template will automatically choose the matching note type.', 'smart-order-notes' ); ?>
 						</p>
 					</td>
 				</tr>
 
 				<tr>
-					<th scope="row"><?php _e( 'Show Template Preview', 'smart-order-notes' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Show Template Preview', 'smart-order-notes' ); ?></th>
 					<td>
 						<label>
 							<input type="checkbox" name="sonotes_show_preview" value="1" <?php checked( $show_preview ); ?>>
-							<?php _e( 'Show template content preview when selecting templates', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'Show template content preview when selecting templates', 'smart-order-notes' ); ?>
 						</label>
 						<p class="description">
-							<?php _e( 'Displays a preview of the template content before inserting.', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'Displays a preview of the template content before inserting.', 'smart-order-notes' ); ?>
 						</p>
 					</td>
 				</tr>
 
 				<tr>
-					<th scope="row"><?php _e( 'Template Limit', 'smart-order-notes' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Template Limit', 'smart-order-notes' ); ?></th>
 					<td>
 						<input type="number" name="sonotes_template_limit" value="<?php echo esc_attr( $template_limit ); ?>" min="5" max="100">
 						<p class="description">
-							<?php _e( 'Maximum number of templates to display in dropdowns (5-100).', 'smart-order-notes' ); ?>
+				<?php esc_html_e( 'Maximum number of templates to display in dropdowns (5-100).', 'smart-order-notes' ); ?>
 						</p>
 					</td>
 				</tr>
@@ -102,7 +102,7 @@ function sonotes_settings_page_html() {
 
 		<hr>
 
-		<h2><?php _e( 'Plugin Information', 'smart-order-notes' ); ?></h2>
+		<h2><?php esc_html_e( 'Plugin Information', 'smart-order-notes' ); ?></h2>
 
 		<?php
 		// Get plugin stats
@@ -131,25 +131,25 @@ function sonotes_settings_page_html() {
 		<table class="widefat">
 			<thead>
 				<tr>
-					<th><?php _e( 'Statistic', 'smart-order-notes' ); ?></th>
-					<th><?php _e( 'Count', 'smart-order-notes' ); ?></th>
+		<th><?php esc_html_e( 'Statistic', 'smart-order-notes' ); ?></th>
+		<th><?php esc_html_e( 'Count', 'smart-order-notes' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><?php _e( 'Total Templates', 'smart-order-notes' ); ?></td>
+		<td><?php esc_html_e( 'Total Templates', 'smart-order-notes' ); ?></td>
 					<td><?php echo esc_html( $template_count->publish ); ?></td>
 				</tr>
 				<tr>
-					<td><?php _e( 'Private Note Templates', 'smart-order-notes' ); ?></td>
+		<td><?php esc_html_e( 'Private Note Templates', 'smart-order-notes' ); ?></td>
 					<td><?php echo esc_html( $private_count ); ?></td>
 				</tr>
 				<tr>
-					<td><?php _e( 'Customer Note Templates', 'smart-order-notes' ); ?></td>
+		<td><?php esc_html_e( 'Customer Note Templates', 'smart-order-notes' ); ?></td>
 					<td><?php echo esc_html( $customer_count ); ?></td>
 				</tr>
 				<tr>
-					<td><?php _e( 'Plugin Version', 'smart-order-notes' ); ?></td>
+		<td><?php esc_html_e( 'Plugin Version', 'smart-order-notes' ); ?></td>
 					<td><?php echo esc_html( SONOTES_VERSION ); ?></td>
 				</tr>
 			</tbody>
@@ -158,14 +158,14 @@ function sonotes_settings_page_html() {
 		<br>
 
 		<div class="card">
-			<h3><?php _e( 'Quick Actions', 'smart-order-notes' ); ?></h3>
+		<h3><?php esc_html_e( 'Quick Actions', 'smart-order-notes' ); ?></h3>
 			<p>
-				<a href="<?php echo admin_url( 'post-new.php?post_type=sonotes_template' ); ?>" class="button button-primary">
-					<?php _e( 'Create New Template', 'smart-order-notes' ); ?>
-				</a>
-				<a href="<?php echo admin_url( 'edit.php?post_type=sonotes_template' ); ?>" class="button">
-					<?php _e( 'Manage Templates', 'smart-order-notes' ); ?>
-				</a>
+		<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=sonotes_template' ) ); ?>" class="button button-primary">
+			<?php esc_html_e( 'Create New Template', 'smart-order-notes' ); ?>
+		</a>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=sonotes_template' ) ); ?>" class="button">
+			<?php esc_html_e( 'Manage Templates', 'smart-order-notes' ); ?>
+		</a>
 			</p>
 		</div>
 	</div>
