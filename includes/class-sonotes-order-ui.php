@@ -32,6 +32,67 @@ function sonotes_add_order_metabox() {
 add_action( 'add_meta_boxes', 'sonotes_add_order_metabox', 0 );
 
 /**
+ * Enqueue scripts and styles for order metabox
+ */
+function sonotes_enqueue_order_scripts( $hook ) {
+	global $post_type, $pagenow;
+
+	// Only load on order edit pages
+	if ( ( $post_type === 'shop_order' && $hook === 'post.php' ) ||
+		( $pagenow === 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] === 'wc-orders' ) ) {
+
+		wp_enqueue_script( 'jquery' );
+
+		// Localize script for AJAX
+		wp_localize_script(
+			'jquery',
+			'sonotes_ajax',
+			array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'sonotes_nonce' ),
+			)
+		);
+
+		// Add inline styles
+		wp_add_inline_style(
+			'wp-admin',
+			'
+			.sonotes-template-selector {
+				padding: 10px 0;
+			}
+			.sonotes-field-group {
+				margin-bottom: 10px;
+			}
+			.sonotes-field-group label {
+				display: block;
+				margin-bottom: 3px;
+			}
+			.sonotes-note-type-selector label {
+				display: inline;
+				font-weight: normal;
+				margin-bottom: 0;
+			}
+			.sonotes-preview-content {
+				max-height: 80px;
+				overflow-y: auto;
+			}
+			.button-success {
+				background-color: #46b450 !important;
+				border-color: #46b450 !important;
+				color: white !important;
+			}
+			.sonotes-no-templates {
+				text-align: center;
+				padding: 20px 10px;
+				color: #666;
+			}
+		'
+		);
+	}
+}
+add_action( 'admin_enqueue_scripts', 'sonotes_enqueue_order_scripts' );
+
+/**
  * Render the order metabox content
  */
 function sonotes_render_order_metabox( $post_or_order ) {
@@ -126,11 +187,14 @@ function sonotes_render_order_metabox( $post_or_order ) {
 			</p>
 		</div>
 
-		<div class="sonotes-field-group" style="margin-top: 15px;">
-			<button type="button" class="button button-primary" id="sonotes_insert_btn" style="width: 100%;">
-				<?php _e( 'Insert Template', 'smart-order-notes' ); ?>
-			</button>
-		</div>
+	<div class="sonotes-field-group" style="margin-top: 15px; display: flex; gap: 8px;">
+		<button type="button" class="button button-primary" id="sonotes_insert_btn" style="flex:1;">
+			<?php _e( 'Insert', 'smart-order-notes' ); ?>
+		</button>
+		<button type="button" class="button button-secondary" id="sonotes_insert_send_btn" style="flex:1;">
+			<?php _e( 'Insert & Send', 'smart-order-notes' ); ?>
+		</button>
+	</div>
 
 		<div class="sonotes-preview" id="sonotes_preview" style="margin-top: 10px; display: none;">
 			<label><strong><?php _e( 'Preview:', 'smart-order-notes' ); ?></strong></label>
@@ -145,13 +209,9 @@ function sonotes_render_order_metabox( $post_or_order ) {
 			var $selected = $(this).find('option:selected');
 			var content = $selected.data('content');
 			var type = $selected.data('type');
-
-			// Show preview
 			if (content) {
 				$('#sonotes_preview .sonotes-preview-content').text(content);
 				$('#sonotes_preview').show();
-
-				// Auto-select note type based on template
 				if (type) {
 					$('input[name="sonotes_note_type"][value="' + type + '"]').prop('checked', true);
 				}
@@ -160,73 +220,89 @@ function sonotes_render_order_metabox( $post_or_order ) {
 			}
 		});
 
-		// Handle insert button click
+		// Handle insert button click (classic behavior)
 		$('#sonotes_insert_btn').on('click', function() {
 			var content = $('#sonotes_template_select option:selected').data('content');
 			var noteType = $('input[name="sonotes_note_type"]:checked').val();
-
 			if (!content) {
 				alert('<?php _e( 'Please select a template first.', 'smart-order-notes' ); ?>');
 				return;
 			}
-
-			// Try different selectors for the order note textarea (different WC versions)
 			var $noteField = $('#add_order_note, textarea[name="order_note"], .wc-order-add-note textarea');
-
 			if ($noteField.length) {
 				$noteField.val(content).focus();
-
-				// Set the note type if the dropdown exists (newer WC versions)
 				var $noteTypeSelect = $('#order_note_type, select[name="order_note_type"]');
 				if ($noteTypeSelect.length && noteType) {
 					$noteTypeSelect.val(noteType === 'customer' ? 'customer' : '').trigger('change');
 				}
-
-				// Show success message
 				$(this).text('<?php _e( 'Inserted!', 'smart-order-notes' ); ?>').addClass('button-success');
 				setTimeout(function() {
-					$('#sonotes_insert_btn').text('<?php _e( 'Insert Template', 'smart-order-notes' ); ?>').removeClass('button-success');
+					$('#sonotes_insert_btn').text('<?php _e( 'Insert', 'smart-order-notes' ); ?>').removeClass('button-success');
 				}, 2000);
 			} else {
 				alert('<?php _e( 'Could not find the order note field. Please add the note manually.', 'smart-order-notes' ); ?>');
 			}
 		});
+
+		// Handle Insert & Send button click (directly add note via AJAX)
+		$('#sonotes_insert_send_btn').on('click', function() {
+			var content = $('#sonotes_template_select option:selected').data('content');
+			var noteType = $('input[name="sonotes_note_type"]:checked').val();
+			var orderId = $("input#post_ID").val() || $("input[name='id']").val();
+			if (!content || !orderId) {
+				alert('<?php _e( 'Please select a template first.', 'smart-order-notes' ); ?>');
+				return;
+			}
+			var $btn = $(this);
+			$btn.prop('disabled', true).text('<?php _e( 'Sending...', 'smart-order-notes' ); ?>');
+			$.post(sonotes_ajax.ajax_url, {
+				action: 'sonotes_insert_and_send',
+				nonce: sonotes_ajax.nonce,
+				order_id: orderId,
+				content: content,
+				note_type: noteType
+			}, function(response) {
+				$btn.prop('disabled', false).text('<?php _e( 'Insert & Send', 'smart-order-notes' ); ?>');
+				if (response && response.success) {
+					// Optionally reload the notes panel or show a message
+					location.reload();
+				} else {
+					alert(response && response.data ? response.data : 'Error adding note.');
+				}
+			});
+		});
 	});
 	</script>
-
-	<style>
-	.sonotes-template-selector {
-		padding: 10px 0;
-	}
-	.sonotes-field-group {
-		margin-bottom: 10px;
-	}
-	.sonotes-field-group label {
-		display: block;
-		margin-bottom: 3px;
-	}
-	.sonotes-note-type-selector label {
-		display: inline;
-		font-weight: normal;
-		margin-bottom: 0;
-	}
-	.sonotes-preview-content {
-		max-height: 80px;
-		overflow-y: auto;
-	}
-	.button-success {
-		background-color: #46b450 !important;
-		border-color: #46b450 !important;
-		color: white !important;
-	}
-	.sonotes-no-templates {
-		text-align: center;
-		padding: 20px 10px;
-		color: #666;
-	}
-	</style>
 	<?php
 }
+
+/**
+ * AJAX handler to insert and send note directly to WooCommerce order
+ */
+function sonotes_ajax_insert_and_send() {
+	if ( ! current_user_can( 'edit_shop_orders' ) ) {
+		wp_send_json_error( 'Permission denied.' );
+	}
+	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( $_POST['nonce'] ) : '';
+	if ( ! wp_verify_nonce( $nonce, 'sonotes_nonce' ) ) {
+		wp_send_json_error( 'Security check failed.' );
+	}
+	$order_id  = isset( $_POST['order_id'] ) ? intval( $_POST['order_id'] ) : 0;
+	$content   = isset( $_POST['content'] ) ? wp_kses_post( $_POST['content'] ) : '';
+	$note_type = isset( $_POST['note_type'] ) && $_POST['note_type'] === 'customer' ? 'customer' : 'private';
+	if ( ! $order_id || ! $content ) {
+		wp_send_json_error( 'Missing data.' );
+	}
+	$order = wc_get_order( $order_id );
+	if ( ! $order ) {
+		wp_send_json_error( 'Order not found.' );
+	}
+	$is_customer_note = ( $note_type === 'customer' );
+	$order->add_order_note( $content, $is_customer_note, true );
+	do_action( 'sonotes_template_inserted', $order_id, $content, $note_type );
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_sonotes_insert_and_send', 'sonotes_ajax_insert_and_send' );
 
 /**
  * Add AJAX handler for inserting templates (alternative method for complex integrations)
