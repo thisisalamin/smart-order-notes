@@ -44,9 +44,9 @@ class SONotes_Main {
 
 	private function includes() {
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-cpt.php';
-		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-order-ui.php';
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-metabox.php';
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-activation.php';
+		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-order-ui.php'; // Order UI class for admin
 	}
 
 	private function add_hooks() {

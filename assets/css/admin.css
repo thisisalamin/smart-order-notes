@@ -6,7 +6,7 @@
 /* Template Selector in Order Pages */
 .sonotes-template-selector {
     background: #fff;
-    padding: 15px;
+    padding: 0px;
     border-radius: 4px;
     margin-bottom: 10px;
 }
@@ -188,7 +188,7 @@
 
 /* WooCommerce Order Screen Specific */
 .woocommerce_page_wc-orders .sonotes-template-selector {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 /* Accessibility Improvements */
