@@ -47,7 +47,6 @@ class SONotes_Main {
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-order-ui.php';
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-metabox.php';
 		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-activation.php';
-		require_once SONOTES_PLUGIN_DIR . 'includes/class-sonotes-settings.php';
 	}
 
 	private function add_hooks() {
