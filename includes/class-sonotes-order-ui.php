@@ -16,7 +16,7 @@ function sonotes_add_order_metabox() {
 		return;
 	}
 
-	// Add to both old and new WooCommerce order screens, with high priority
+	// Add to both old and new WooCommerce order screens, with highest priority (priority 1)
 	$screens = array( 'shop_order', 'woocommerce_page_wc-orders' );
 	foreach ( $screens as $screen ) {
 		add_meta_box(
@@ -25,7 +25,8 @@ function sonotes_add_order_metabox() {
 			'sonotes_render_order_metabox',
 			$screen,
 			'side',
-			'high' // This makes it appear before the default order notes
+			'core', // 'core' puts it at the very top
+			array( '__back_compat_meta_box' => true ) // For compatibility
 		);
 	}
 }
