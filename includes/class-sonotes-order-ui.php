@@ -143,7 +143,10 @@ class SONotes_Order_UI {
 					<?php esc_html_e( 'Customer Note', 'smart-order-notes' ); ?>
 					</label>
 				</div>
-			<p class="description" style="margin-top: 5px;">
+			<p class="description sonotes-desc-private" style="margin-top: 5px; display: block;">
+				<?php esc_html_e( 'Private notes are only visible to store staff.', 'smart-order-notes' ); ?>
+			</p>
+			<p class="description sonotes-desc-customer" style="margin-top: 5px; display: none;">
 				<?php esc_html_e( 'Customer notes will be sent via email to the customer.', 'smart-order-notes' ); ?>
 			</p>
 			</div>
@@ -162,7 +165,7 @@ class SONotes_Order_UI {
 		</div>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
-			// ...existing JS code from sonotes_render_order_metabox...
+			// ...existing code from sonotes_render_order_metabox...
 			// (Copy the full JS code here, unchanged)
 			$('#sonotes_template_select').on('change', function() {
 				var $selected = $(this).find('option:selected');
@@ -178,6 +181,23 @@ class SONotes_Order_UI {
 					$('#sonotes_preview').hide();
 				}
 			});
+			$('input[name="sonotes_note_type"]').on('change', function() {
+				if ($(this).val() === 'customer') {
+					$('.sonotes-desc-private').hide();
+					$('.sonotes-desc-customer').show();
+				} else {
+					$('.sonotes-desc-private').show();
+					$('.sonotes-desc-customer').hide();
+				}
+			});
+			// Set correct description on load
+			if ($('input[name="sonotes_note_type"]:checked').val() === 'customer') {
+				$('.sonotes-desc-private').hide();
+				$('.sonotes-desc-customer').show();
+			} else {
+				$('.sonotes-desc-private').show();
+				$('.sonotes-desc-customer').hide();
+			}
 			$('#sonotes_insert_btn').on('click', function() {
 				var content = $('#sonotes_template_select option:selected').data('content');
 				var noteType = $('input[name="sonotes_note_type"]:checked').val();
