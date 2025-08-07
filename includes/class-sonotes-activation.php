@@ -56,6 +56,33 @@ function sonotes_create_predefined_templates() {
 			'post_content' => 'Your refund has been processed and should appear in your account within 3-5 business days.',
 			'meta'         => array( '_sonotes_type' => 'customer' ),
 		),
+		array(
+			'post_title'   => 'Order Completed',
+			'post_content' => 'Your order has been completed successfully. Thank you for shopping with us!',
+			'meta'         => array( '_sonotes_type' => 'customer' ),
+		),
+		array(
+			'post_title'   => 'Order Cancelled',
+			'post_content' => 'Your order has been cancelled as per your request. If you have any questions, please contact support.',
+			'meta'         => array( '_sonotes_type' => 'customer' ),
+		),
+		array(
+			'post_title'   => 'Order Updated',
+			'post_content' => 'Your order details have been updated. Please check your email for the latest information.',
+			'meta'         => array( '_sonotes_type' => 'customer' ),
+		),
+		array(			'post_title'   => 'Order Note Added',
+			'post_content' => 'A new note has been added to your order. Please review the details in your account.',
+			'meta'         => array( '_sonotes_type' => 'private' ),
+		),
+		array(			'post_title'   => 'Order Issue Reported',
+			'post_content' => 'An issue has been reported with your order. Our support team is looking into it and will contact you shortly.',
+			'meta'         => array( '_sonotes_type' => 'private' ),
+		),
+		array(			'post_title'   => 'Order Feedback Requested',
+			'post_content' => 'We would love your feedback on your recent order. Please take a moment to share your thoughts with us.',
+			'meta'         => array( '_sonotes_type' => 'customer' ),
+		),
 	);
 
 	// Create each predefined template

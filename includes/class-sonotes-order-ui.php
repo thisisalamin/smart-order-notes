@@ -16,20 +16,20 @@ function sonotes_add_order_metabox() {
 		return;
 	}
 
-	// Add to both old and new WooCommerce order screens
-	$screen = get_current_screen();
-	if ( $screen && ( $screen->id === 'shop_order' || $screen->id === 'woocommerce_page_wc-orders' ) ) {
+	// Add to both old and new WooCommerce order screens, with high priority
+	$screens = array( 'shop_order', 'woocommerce_page_wc-orders' );
+	foreach ( $screens as $screen ) {
 		add_meta_box(
 			'sonotes_order_templates',
 			__( 'Order Note Templates', 'smart-order-notes' ),
 			'sonotes_render_order_metabox',
-			array( 'shop_order', 'woocommerce_page_wc-orders' ),
+			$screen,
 			'side',
-			'default'
+			'high' // This makes it appear before the default order notes
 		);
 	}
 }
-add_action( 'add_meta_boxes', 'sonotes_add_order_metabox' );
+add_action( 'add_meta_boxes', 'sonotes_add_order_metabox', 0 );
 
 /**
  * Render the order metabox content

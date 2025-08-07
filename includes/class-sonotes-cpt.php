@@ -26,35 +26,39 @@ function sonotes_register_template_cpt() {
 		'menu_name'          => __( 'Order Notes', 'smart-order-notes' ),
 	);
 
-	$args = array(
-		'labels'             => $labels,
-		'public'             => false,
-		'publicly_queryable' => false,
-		'show_ui'            => true,
-		'show_in_menu'       => false,
-		'query_var'          => false,
-		'rewrite'            => false,
-		'capability_type'    => 'shop_order',
-		'capabilities'       => array(
-			'create_posts'        => 'manage_woocommerce',
-			'edit_posts'          => 'manage_woocommerce',
-			'edit_others_posts'   => 'manage_woocommerce',
-			'publish_posts'       => 'manage_woocommerce',
-			'read_private_posts'  => 'manage_woocommerce',
-			'delete_posts'        => 'manage_woocommerce',
-			'delete_others_posts' => 'manage_woocommerce',
-		),
-		'map_meta_cap'       => true,
-		'has_archive'        => false,
-		'hierarchical'       => false,
-		'menu_position'      => null,
-		'supports'           => array( 'title', 'editor' ),
-		'show_in_rest'       => false,
-	);
+		$args = array(
+			'labels'                           => $labels,
+			'public'                           => false,
+			'publicly_queryable'               => false,
+			'show_ui'                          => true,
+			'show_in_menu'                     => false,
+			'query_var'                        => false,
+			'rewrite'                          => false,
+			'capability_type'                  => 'shop_order',
+			'capabilities'                     => array(
+				'create_posts'        => 'manage_woocommerce',
+				'edit_posts'          => 'manage_woocommerce',
+				'edit_others_posts'   => 'manage_woocommerce',
+				'publish_posts'       => 'manage_woocommerce',
+				'read_private_posts'  => 'manage_woocommerce',
+				'delete_posts'        => 'manage_woocommerce',
+				'delete_others_posts' => 'manage_woocommerce',
+			),
+			'map_meta_cap'                     => true,
+			'has_archive'                      => false,
+			'hierarchical'                     => false,
+			'menu_position'                    => null,
+			'supports'                         => array( 'title', 'editor' ),
+			'show_in_rest'                     => false,
+			// HPOS/Custom order table compatibility
+			'woocommerce_is_custom_order_type' => false,
+			'custom_order_tables'              => false,
+			'woocommerce_order_data_store_cpt' => false,
+		);
 
-	register_post_type( 'sonotes_template', $args );
+		register_post_type( 'sonotes_template', $args );
 }
-add_action( 'init', 'sonotes_register_template_cpt' );
+add_action( 'init', 'sonotes_register_template_cpt', 0 );
 
 /**
  * Add admin menu for templates under WooCommerce
