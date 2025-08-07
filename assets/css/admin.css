@@ -1,0 +1,263 @@
+/**
+ * Smart Order Notes - Admin Styles
+ * Version: 1.0.0
+ */
+
+/* Template Selector in Order Pages */
+.sonotes-template-selector {
+    background: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.sonotes-field-group {
+    margin-bottom: 15px;
+}
+
+.sonotes-field-group:last-child {
+    margin-bottom: 0;
+}
+
+.sonotes-field-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.sonotes-field-group select {
+    width: 100%;
+    min-height: 30px;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.sonotes-field-group select:focus {
+    border-color: #0073aa;
+    outline: 0;
+    box-shadow: 0 0 0 1px #0073aa;
+}
+
+/* Note Type Selector */
+.sonotes-note-type-selector {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.sonotes-note-type-selector label {
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    margin-bottom: 0;
+    cursor: pointer;
+    color: #646970;
+}
+
+.sonotes-note-type-selector input[type="radio"] {
+    margin-right: 6px;
+    margin-top: 0;
+}
+
+/* Preview Section */
+.sonotes-preview {
+    background: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.sonotes-preview-content {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    max-height: 100px;
+    overflow-y: auto;
+    word-break: break-word;
+}
+
+/* Buttons */
+.sonotes-template-selector .button-primary {
+    background: #0073aa;
+    border-color: #0073aa;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 2.15384615;
+    min-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.sonotes-template-selector .button-primary:hover {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+.sonotes-template-selector .button-primary:focus {
+    border-color: #005a87;
+    color: #fff;
+    outline: 2px solid transparent;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #0073aa;
+}
+
+.button-success {
+    background-color: #46b450 !important;
+    border-color: #46b450 !important;
+    color: white !important;
+}
+
+/* No Templates State */
+.sonotes-no-templates {
+    text-align: center;
+    padding: 30px 15px;
+    color: #646970;
+    background: #f9f9f9;
+    border: 1px dashed #c3c4c7;
+    border-radius: 4px;
+}
+
+.sonotes-no-templates p {
+    margin: 0 0 15px 0;
+}
+
+.sonotes-no-templates .button {
+    text-decoration: none;
+}
+
+/* Template List Columns */
+.wp-list-table .column-sonotes_type {
+    width: 150px;
+}
+
+.wp-list-table .column-sonotes_content {
+    width: 300px;
+}
+
+/* Template Type Metabox */
+.sonotes-template-type-wrapper {
+    padding: 10px 0;
+}
+
+.sonotes-template-type-wrapper select {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.sonotes-help-text {
+    margin-top: 15px;
+    padding: 10px 12px;
+    background: #f6f7f7;
+    border-left: 4px solid #72777c;
+    border-radius: 0 3px 3px 0;
+}
+
+.sonotes-help-text .description {
+    margin: 0;
+    font-style: italic;
+    color: #646970;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 782px) {
+    .sonotes-note-type-selector {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sonotes-template-selector {
+        padding: 10px;
+    }
+}
+
+/* WooCommerce Order Screen Specific */
+.woocommerce_page_wc-orders .sonotes-template-selector {
+    margin-bottom: 20px;
+}
+
+/* Accessibility Improvements */
+.sonotes-template-selector *:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 1px;
+}
+
+.sonotes-template-selector button:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* Success Animation */
+@keyframes sonotes-success {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.button-success {
+    animation: sonotes-success 0.3s ease;
+}
+
+/* Loading State */
+.sonotes-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.sonotes-loading::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    border-top-color: #0073aa;
+    animation: sonotes-spin 1s ease-in-out infinite;
+}
+
+@keyframes sonotes-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Template Editor Enhancements */
+.post-type-sonotes_template .postbox {
+    border: 1px solid #e1e1e1;
+}
+
+.post-type-sonotes_template .postbox h2 {
+    font-size: 14px;
+    padding: 12px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Notice Improvements */
+.post-type-sonotes_template .notice {
+    margin: 15px 0;
+}
+
+.post-type-sonotes_template .notice ul {
+    margin: 10px 0 5px 20px;
+    list-style: disc;
+}
+
+.post-type-sonotes_template .notice li {
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
