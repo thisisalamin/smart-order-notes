@@ -219,7 +219,18 @@ class SONotes_Order_UI {
 				}, function(response) {
 					$btn.prop('disabled', false).text('<?php esc_js( __( 'Insert & Send', 'smart-order-notes' ) ); ?>');
 					if (response && response.success) {
-						location.reload();
+						// Scroll to and focus the order note field before reload
+						var $noteField = $('#add_order_note, textarea[name="order_note"], .wc-order-add-note textarea');
+						if ($noteField.length) {
+							$('html, body').animate({
+								scrollTop: $noteField.offset().top - 100
+							}, 300, function() {
+								$noteField.focus();
+								location.reload();
+							});
+						} else {
+							location.reload();
+						}
 					} else {
 						alert(response && response.data ? response.data : 'Error adding note.');
 					}
