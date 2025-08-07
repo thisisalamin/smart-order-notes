@@ -4,6 +4,7 @@ A lightweight WooCommerce extension designed to simplify and speed up order mana
 
 ## Features
 
+
 ### ✨ Core Features
 - **Create & Manage Templates**: Admin interface to add, edit, and delete note templates
 - **Quick Insert on Orders**: Dropdown selector in WooCommerce order admin that inserts template text into order notes
@@ -11,6 +12,20 @@ A lightweight WooCommerce extension designed to simplify and speed up order mana
 - **Clean UI**: Minimal, intuitive interface to avoid clutter
 - **Role-based Access**: Only users with proper WooCommerce permissions can manage or use templates
 - **Lightweight & Fast**: No heavy dependencies or performance impact
+
+## 🛠️ Planned Features
+
+- **Template Management Enhancements**
+  - Allow users to create/edit/delete templates from the order page (modal or quick link)
+  - Add categories/tags for templates for better organization
+- **Template Variables**
+  - Support dynamic variables in templates (e.g., {customer_name}, {order_total}) that auto-populate when inserted
+- **Bulk Actions**
+  - Allow bulk insertion of notes to multiple orders (from the orders list)
+- **Logging & History**
+  - Keep a log of which templates were used, by whom, and when, for audit purposes
+- **Settings Page**
+  - Add a settings page to configure plugin options (default note type, permissions, etc.)
 
 ### 🚀 Enhanced Features
 - **Template Preview**: See template content before inserting
