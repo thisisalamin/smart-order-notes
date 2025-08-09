@@ -4,7 +4,7 @@ Tags: woocommerce, order notes, templates, admin, ecommerce
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 WC requires at least: 3.0
 WC tested up to: 8.5
 License: GPLv2 or later
@@ -157,7 +157,7 @@ Yes, the plugin works with any order status. Templates can be used regardless of
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0.1 =
 * Initial release
 * Template management system with create, edit, delete functionality
 * WooCommerce order page integration with sidebar metabox
@@ -174,7 +174,7 @@ Yes, the plugin works with any order status. Templates can be used regardless of
 
 == Upgrade Notice ==
 
-= 1.0.0 =
+= 1.0.1 =
 Initial release of Smart Order Notes. Install now to streamline your WooCommerce order management with reusable note templates.
 
 == Additional Information ==

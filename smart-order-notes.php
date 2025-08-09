@@ -3,7 +3,7 @@
  * Plugin Name: Smart Order Notes
  * Description: Lightweight WooCommerce extension for reusable order note templates.
  * Plugin URI: https://github.com/thisisalamin/smart-order-notes
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Crafely
  * Author URI: https://crafely.com
  * Text Domain: smart-order-notes
@@ -29,7 +29,7 @@ class SONotes_Main {
 	}
 	private function define_constants() {
 		if ( ! defined( 'SONOTES_VERSION' ) ) {
-			define( 'SONOTES_VERSION', '1.0.0' );
+			define( 'SONOTES_VERSION', '1.0.1' );
 		}
 		if ( ! defined( 'SONOTES_PLUGIN_DIR' ) ) {
 			define( 'SONOTES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

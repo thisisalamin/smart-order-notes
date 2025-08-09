@@ -198,7 +198,7 @@ For support, feature requests, and bug reports, please use the plugin's support 
 
 ## Changelog
 
-### 1.0.0
+### 1.0.1
 - Initial release
 - Core template management functionality
 - WooCommerce order integration
